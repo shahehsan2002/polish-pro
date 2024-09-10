@@ -7,4 +7,4 @@ export const baseApi = createApi({
   endpoints: () => ({}),
 });
 
-export const {} = baseApi;
+export const { } = baseApi;
