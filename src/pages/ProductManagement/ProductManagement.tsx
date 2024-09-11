@@ -1,47 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 
-// Sample data
-const sampleProducts = [
-  { id: 1, name: 'Treadmill', price: 499.99, category: 'Cardio', image: 'https://via.placeholder.com/300x200', description: 'A high-quality treadmill for your home gym.', stock: 10 },
-  // Add more products as needed
-];
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
+import '../../ProductManagement.css'; // Import custom CSS for animations
 
 const ProductManagement = () => {
-  const [products, setProducts] = useState(sampleProducts);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([
+    { _id: 'strength', name: 'Strength' },
+    { _id: 'yoga', name: 'Yoga' },
+    { _id: 'recovery', name: 'Recovery' },
+    { _id: 'cardio', name: 'Cardio' },
+    { _id: 'accessories', name: 'Accessories' },
+    { _id: 'core', name: 'Core' },
+  ]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '', image: '', description: '', stock: '' });
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    price: '',
+    category: '',
+    image: '',
+    description: '',
+    stock: '',
+  });
   const [filterTerm, setFilterTerm] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    // Fetch products from API or use sample data
-    // setProducts(fetchedProducts);
+    // Fetch products from the backend
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/products');
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    // Fetch categories from the backend
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/categories');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchProducts();
+    fetchCategories();
   }, []);
 
   const handleEdit = (product) => {
     setEditingProduct(product);
     setIsEditing(true);
+    setSuccessMessage('');
   };
 
-  const handleDelete = (productId) => {
+  const handleDelete = async (productId) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      setProducts(products.filter((product) => product.id !== productId));
+      try {
+        await axios.delete(`http://localhost:5000/api/products/${productId}`);
+        setProducts(products.filter((product) => product._id !== productId));
+        setSuccessMessage('Product deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
     }
   };
 
-  const handleAddProduct = () => {
-    setProducts([...products, { ...newProduct, id: products.length + 1 }]);
-    setNewProduct({ name: '', price: '', category: '', image: '', description: '', stock: '' });
+  const handleAddProduct = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/products', newProduct);
+      setProducts([...products, response.data]);
+      setNewProduct({
+        name: '',
+        price: '',
+        category: '',
+        image: '',
+        description: '',
+        stock: '',
+      });
+      setSuccessMessage('Product added successfully!');
+    } catch (error) {
+      console.error('Error adding product:', error);
+    }
   };
 
-  const handleUpdateProduct = () => {
-    setProducts(products.map((product) =>
-      product.id === editingProduct.id ? editingProduct : product
-    ));
-    setEditingProduct(null);
-    setIsEditing(false);
+  const handleUpdateProduct = async () => {
+    try {
+      await axios.put(`http://localhost:5000/api/products/${editingProduct._id}`, editingProduct);
+      setProducts(products.map((product) =>
+        product._id === editingProduct._id ? editingProduct : product
+      ));
+      setEditingProduct(null);
+      setIsEditing(false);
+      setSuccessMessage('Product updated successfully!');
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
   };
 
   const handleChange = (e) => {
@@ -53,13 +111,20 @@ const ProductManagement = () => {
     }
   };
 
-  const filteredProducts = products.filter(product =>
+  const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(filterTerm.toLowerCase())
   );
 
   return (
     <section className="py-16 px-4 bg-gray-100">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Success Message */}
+        {successMessage && (
+          <div className="p-4 bg-green-500 text-white rounded-lg mb-4">
+            {successMessage}
+          </div>
+        )}
+
         {/* Search Bar */}
         <div className="p-6 border-b border-gray-200 bg-gray-50 mb-6">
           <input
@@ -75,104 +140,150 @@ const ProductManagement = () => {
         <div className="p-6">
           <button
             onClick={() => setIsEditing(false)}
-            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center space-x-2 hover:bg-blue-600 transition-colors duration-300"
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg mb-4"
           >
-            <FaPlus /> <span>Add New Product</span>
+            <FaPlus /> Add New Product
           </button>
-
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 border-b">Name</th>
-                <th className="py-2 px-4 border-b">Price</th>
-                <th className="py-2 px-4 border-b">Category</th>
-                <th className="py-2 px-4 border-b">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProducts.map((product) => (
-                <tr key={product.id}>
-                  <td className="py-2 px-4 border-b">{product.name}</td>
-                  <td className="py-2 px-4 border-b">${product.price.toFixed(2)}</td>
-                  <td className="py-2 px-4 border-b">{product.category}</td>
-                  <td className="py-2 px-4 border-b flex space-x-2">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors duration-300"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product.id)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
-                    >
-                      <FaTrash />
-                    </button>
-                  </td>
+          {filteredProducts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="text-center">
+                <h2 className="text-xl font-semibold mb-4">No Products Available</h2>
+                <p className="text-gray-700">It looks like there are no products in the inventory.</p>
+                <div className="mt-4 animate-bounce">
+                  <FaPlus size={40} className="text-blue-500" />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <table className="w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+              <thead>
+                <tr>
+                  <th className="p-4 border-b">Name</th>
+                  <th className="p-4 border-b">Price</th>
+                  <th className="p-4 border-b">Category</th>
+                  <th className="p-4 border-b">Stock</th>
+                  <th className="p-4 border-b">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredProducts.map((product) => (
+                  <tr key={product._id}>
+                    <td className="p-4 border-b">{product.name}</td>
+                    <td className="p-4 border-b">${product.price.toFixed(2)}</td>
+                    <td className="p-4 border-b">{product.category.name}</td>
+                    <td className="p-4 border-b">{product.stock}</td>
+                    <td className="p-4 border-b">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="text-blue-500 hover:text-blue-700"
+                      >
+                        <FaEdit /> Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product._id)}
+                        className="text-red-500 hover:text-red-700 ml-4"
+                      >
+                        <FaTrash /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
-        {/* Add / Update Product Form */}
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4">{isEditing ? 'Update Product' : 'Add New Product'}</h2>
-          <div className="space-y-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Product Name"
-              value={isEditing ? editingProduct.name : newProduct.name}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={isEditing ? editingProduct.price : newProduct.price}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              value={isEditing ? editingProduct.category : newProduct.category}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <input
-              type="text"
-              name="image"
-              placeholder="Image URL"
-              value={isEditing ? editingProduct.image : newProduct.image}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={isEditing ? editingProduct.description : newProduct.description}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock"
-              value={isEditing ? editingProduct.stock : newProduct.stock}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full"
-            />
-            <button
-              onClick={isEditing ? handleUpdateProduct : handleAddProduct}
-              className={`px-4 py-2 rounded-lg ${isEditing ? 'bg-green-500' : 'bg-blue-500'} text-white hover:bg-${isEditing ? 'green-600' : 'blue-600'} transition-colors duration-300`}
-            >
-              {isEditing ? 'Update Product' : 'Add Product'}
-            </button>
-          </div>
+        {/* Product Form */}
+        <div className="p-6 bg-gray-50">
+          <h2 className="text-lg font-semibold mb-4">{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
+          <form>
+            <div className="mb-4">
+              <label className="block text-gray-700">Product Name</label>
+              <input
+                type="text"
+                name="name"
+                value={isEditing ? editingProduct.name : newProduct.name}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Price</label>
+              <input
+                type="number"
+                name="price"
+                value={isEditing ? editingProduct.price : newProduct.price}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Category</label>
+              <select
+                name="category"
+                value={isEditing ? editingProduct.category : newProduct.category}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Image URL</label>
+              <input
+                type="text"
+                name="image"
+                value={isEditing ? editingProduct.image : newProduct.image}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Description</label>
+              <textarea
+                name="description"
+                value={isEditing ? editingProduct.description : newProduct.description}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700">Stock</label>
+              <input
+                type="number"
+                name="stock"
+                value={isEditing ? editingProduct.stock : newProduct.stock}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full"
+                required
+              />
+            </div>
+            {isEditing ? (
+              <button
+                type="button"
+                onClick={handleUpdateProduct}
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+              >
+                Update Product
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleAddProduct}
+                className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+              >
+                Add Product
+              </button>
+            )}
+          </form>
         </div>
       </div>
     </section>
