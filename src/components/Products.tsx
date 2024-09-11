@@ -1,28 +1,50 @@
-import React, { useState } from 'react';
-import ProductCard from '../components/productCard';
-import getAllProducts from '../data/products';
-import { ChevronLeft, ChevronRight } from 'lucide-react'; // For pagination arrows
-import { motion } from 'framer-motion'; // For animations
+import React, { useState, useEffect } from "react";
+import ProductCard from "../components/productCard";
+import axios from "axios";
+import { ChevronLeft, ChevronRight } from "lucide-react"; // For pagination arrows
+import { motion } from "framer-motion"; // For animations
 
 const Products = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]); // Assuming default max price as 10000
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const products = getAllProducts()
-    .filter((product) => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedCategories.length === 0 || selectedCategories.includes(product.category)) &&
-      product.price >= priceRange[0] && product.price <= priceRange[1]
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/products");
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products
+    .filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedCategories.length === 0 ||
+          selectedCategories.includes(product.category)) &&
+        product.price >= priceRange[0] &&
+        product.price <= priceRange[1]
     )
-    .sort((a, b) => sortOrder === 'asc' ? a.price - b.price : b.price - a.price);
+    .sort((a, b) =>
+      sortOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
 
   // Pagination
-  const totalPages = Math.ceil(products.length / itemsPerPage);
-  const paginatedProducts = products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -38,7 +60,9 @@ const Products = () => {
 
   const handleCategoryChange = (category) => {
     if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
+      setSelectedCategories(
+        selectedCategories.filter((cat) => cat !== category)
+      );
     } else {
       setSelectedCategories([...selectedCategories, category]);
     }
@@ -53,10 +77,10 @@ const Products = () => {
   };
 
   const handleClearFilters = () => {
-    setSearchTerm('');
+    setSearchTerm("");
     setSelectedCategories([]);
     setPriceRange([0, 10000]);
-    setSortOrder('asc');
+    setSortOrder("asc");
   };
 
   return (
@@ -90,7 +114,9 @@ const Products = () => {
         />
 
         <div className="flex gap-4 items-center mb-4 lg:mb-0">
-          <label htmlFor="sortOrder" className="font-medium">Sort by Price:</label>
+          <label htmlFor="sortOrder" className="font-medium">
+            Sort by Price:
+          </label>
           <motion.select
             id="sortOrder"
             className="border p-2 rounded-lg"
@@ -124,8 +150,18 @@ const Products = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h3 className="font-bold mb-2">Categories</h3>
-          {['Strength', 'Yoga', 'Recovery', 'Cardio', 'Accessories', 'Core'].map((category) => (
-            <label key={category} className="inline-flex items-center cursor-pointer mb-2">
+          {[
+            "Strength",
+            "Yoga",
+            "Recovery",
+            "Cardio",
+            "Accessories",
+            "Core",
+          ].map((category) => (
+            <label
+              key={category}
+              className="inline-flex items-center cursor-pointer mb-2"
+            >
               <input
                 type="checkbox"
                 onChange={() => handleCategoryChange(category)}
@@ -145,7 +181,7 @@ const Products = () => {
         >
           <h3 className="font-bold mb-2">Price Range</h3>
           <label>
-            Min Price: 
+            Min Price:
             <input
               type="number"
               className="border p-2 rounded-lg ml-2"
@@ -154,7 +190,7 @@ const Products = () => {
             />
           </label>
           <label>
-            Max Price: 
+            Max Price:
             <input
               type="number"
               className="border p-2 rounded-lg ml-2"
@@ -173,7 +209,7 @@ const Products = () => {
       >
         {paginatedProducts.map((product) => (
           <motion.div
-            key={product.id}
+            key={product._id} // Change to product._id if _id is used
             className="transition-transform transform hover:scale-105 hover:shadow-lg hover:rotate-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
