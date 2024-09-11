@@ -8,7 +8,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 10000]); // Assuming default max price as 10000
+  const [priceRange, setPriceRange] = useState([0, 10000]); // Default max price as 10000
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
@@ -201,49 +201,93 @@ const Products = () => {
         </motion.div>
       </div>
 
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {paginatedProducts.map((product) => (
+      {filteredProducts.length > 0 ? (
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {paginatedProducts.map((product) => (
+            <motion.div
+              key={product._id}
+              className="transition-transform transform hover:scale-105 hover:shadow-lg hover:rotate-3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </motion.div>
+      ) : (
+        <motion.div
+          className="flex justify-center items-center h-64"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
           <motion.div
-            key={product._id} // Change to product._id if _id is used
-            className="transition-transform transform hover:scale-105 hover:shadow-lg hover:rotate-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            className="text-center"
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <ProductCard product={product} />
+            <motion.h2
+              className="text-3xl font-bold mb-4 text-gray-700"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              No products found
+            </motion.h2>
+            <motion.p
+              className="text-lg text-gray-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              Try adjusting your filters or search term.
+            </motion.p>
+            <motion.div
+              className="mt-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              <button
+                onClick={handleClearFilters}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+              >
+                Clear Filters
+              </button>
+            </motion.div>
           </motion.div>
-        ))}
-      </motion.div>
+        </motion.div>
+      )}
 
-      <div className="flex justify-between items-center">
-        <motion.button
-          className="flex items-center border p-2 rounded-lg transition-transform transform hover:scale-105"
+      <div className="flex justify-between mt-8">
+        <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          className={`px-4 py-2 rounded-lg ${
+            currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"
+          }`}
         >
-          <ChevronLeft /> Previous
-        </motion.button>
-        <p className="text-lg font-medium">
-          Page {currentPage} of {totalPages}
-        </p>
-        <motion.button
-          className="flex items-center border p-2 rounded-lg transition-transform transform hover:scale-105"
+          <ChevronLeft />
+        </button>
+        <span className="text-lg font-medium">{currentPage}</span>
+        <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          className={`px-4 py-2 rounded-lg ${
+            currentPage === totalPages
+              ? "bg-gray-300"
+              : "bg-blue-500 text-white"
+          }`}
         >
-          Next <ChevronRight />
-        </motion.button>
+          <ChevronRight />
+        </button>
       </div>
     </div>
   );
