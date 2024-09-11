@@ -1,7 +1,11 @@
+
+
 import React from "react";
 import { motion } from "framer-motion";
-import profilePic1 from "@/assets/BannerPic.jpg";
-import profilePic2 from "@/assets/BannerPic2.jpg";
+import profilePic1 from "@/assets/person-1.jpg";
+import profilePic2 from "@/assets/person-2.jpg";
+import profilePic3 from "@/assets/person-3.jpg";
+import profilePic4 from "@/assets/person-4.jpeg";
 import { FaBullseye, FaHandshake, FaRocket, FaAward } from "react-icons/fa";
 
 // Animation Variants
@@ -34,6 +38,11 @@ const parallaxEffect = (scrollYProgress) => ({
   transform: `translateY(${scrollYProgress * 50}px)`,
 });
 
+const testimonialVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  show: { opacity: 1, scale: 1 },
+};
+
 export default function About() {
   return (
     <div className="container mx-auto py-16 px-4">
@@ -55,7 +64,7 @@ export default function About() {
         variants={staggerContainer}
         className="my-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
       >
-        {[
+        {[ 
           { icon: FaAward, title: "50+ Awards", text: "Recognized globally for excellence." },
           { icon: FaHandshake, title: "15 Countries", text: "Proudly operating across the world." },
           { icon: FaRocket, title: "100% Growth", text: "Accelerating progress every year." },
@@ -108,7 +117,7 @@ export default function About() {
       <motion.div initial="hidden" animate="show" variants={staggerContainer} className="text-center my-16">
         <h2 className="text-4xl font-bold mb-8">Meet Our Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {[
+          {[ 
             { name: "John Doe", role: "Founder & CEO", img: profilePic1 },
             { name: "Jane Smith", role: "COO", img: profilePic2 },
           ].map((member, index) => (
@@ -132,7 +141,7 @@ export default function About() {
         <h2 className="text-4xl font-bold text-center mb-10">Our Journey</h2>
         <div className="relative">
           <div className="border-l-4 border-yellow-500 absolute h-full left-1/2 transform -translate-x-1/2"></div>
-          {[
+          {[ 
             {
               year: "2015",
               title: "Founded",
@@ -170,11 +179,52 @@ export default function About() {
         </div>
       </motion.div>
 
+      {/* Testimonials Section */}
+      <motion.div initial="hidden" animate="show" variants={fadeInUp} className="my-16">
+        <h2 className="text-4xl font-bold text-center mb-10">What Our Clients Say</h2>
+        <div className="flex flex-wrap justify-center">
+          {[ 
+            {
+              name: "Alice Johnson",
+              feedback: "StrengthZone has completely transformed my fitness routine. The equipment is top-notch and the customer service is exceptional.",
+              img: profilePic1
+            },
+            {
+              name: "Mark Smith",
+              feedback: "I've seen incredible results using StrengthZone's equipment. The quality and durability are unmatched.",
+              img: profilePic3
+            },
+            {
+              name: "Emma Brown",
+              feedback: "Fantastic experience from start to finish. The team at StrengthZone is knowledgeable and truly cares about their customers.",
+              img: profilePic4
+            },
+          ].map((testimonial, index) => (
+            <motion.div
+              key={index}
+              variants={testimonialVariants}
+              initial="hidden"
+              animate="show"
+              className="bg-white shadow-lg rounded-lg p-6 m-4 w-full md:w-80"
+            >
+              <div className="flex items-center mb-4">
+                <img src={testimonial.img} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" />
+                <div>
+                  <h4 className="text-xl font-semibold">{testimonial.name}</h4>
+                  <p className="text-gray-600 text-sm">Client</p>
+                </div>
+              </div>
+              <p className="text-gray-700">{testimonial.feedback}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* Call to Action */}
       <motion.div initial="hidden" animate="show" variants={fadeInUp} className="text-center my-16">
         <a
           href="/contact"
-          className="inline-block px-10 py-4 bg-yellow-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition duration-300"
+          className="inline-block px-10 py-4 bg-yellow-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition duration-300 transform hover:scale-105"
         >
           Contact Us
         </a>
