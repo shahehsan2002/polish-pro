@@ -1,20 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import exampleImage from '../../assets/BannerPic.jpg'; // Import the image
+import Image1 from '../../assets/Mosaic/fitness-6214388_640.jpg'; // Import the image
+import Image2 from '../../assets/Mosaic/man-1868632_640.jpg'; // Import the image
+import Image3 from '../../assets/Mosaic/man-2604149_640.jpg'; // Import the image
+import Image4 from '../../assets/Mosaic/sport-2792995_640.jpg'; // Import the image
+import Image5 from '../../assets/Mosaic/weightlifting-5730110_640.jpg'; // Import the image
+import Image6 from '../../assets/Mosaic/woman-1284656_640.jpg'; // Import the image
+import Image7 from '../../assets/Mosaic/woman-6888634_640.jpg'; // Import the image
+import Image8 from '../../assets/Mosaic/workout-6783020_640.jpg'; // Import the image
 
 const images = [
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
-  exampleImage, // Use the imported image
+  Image1, // Use the imported image
+  Image2, // Use the imported image
+  Image3, // Use the imported image
+  Image4, // Use the imported image
+  Image5, // Use the imported image
+  Image6, // Use the imported image
+  Image7, // Use the imported image
+  Image8, // Use the imported image
   // Add more local images or URLs
 ];
 

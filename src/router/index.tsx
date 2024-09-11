@@ -1,6 +1,8 @@
 import MainLayout from "@/components/Layouts/MainLayouts";
 import About from "@/pages/About/About";
 import Cart from "@/pages/Cart/Cart";
+import CheckoutPage from "@/pages/Checkout/Checkout";
+import SuccessPage from "@/pages/Checkout/Success";
 import ContactPage from "@/pages/Contact/Contact";
 import Home from "@/pages/Home/Home";
 import LoginPage from "@/pages/Login/Login";
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "/product",
         element: <ProductsPage />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "/success",
+        element: <SuccessPage />,
       },
       {
         path: "/product-management",

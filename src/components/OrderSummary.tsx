@@ -1,53 +1,67 @@
+import React from 'react';
 import { CreditCard, Trash2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { clearCart } from "../redux/features/cartSlice";
+import { useNavigate } from 'react-router-dom';
 
 const OrderSummary = () => {
-  const dispatch = useAppDispatch()
-    const {tax,taxRate,grandTotal,totalPrice,selectedItems}= useAppSelector((store)=>store.cart)
-    const handleClearCart=()=>{
-      dispatch(clearCart())
-    }
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { tax, taxRate, grandTotal, totalPrice, selectedItems } = useAppSelector((store) => store.cart);
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
+  const handleProceedCheckout = () => {
+    navigate('/checkout');
+  };
+
   return (
-    <div className=" lg:w-80 w-full h-full bg-primary mt-20 bg-opacity-35 rounded">
-      <div className="px-6 py-4 space-y-10">
-        <h1 className="text-3xl font-bold text-dark">Order Summary</h1>
-        <p className="text-sm text-dark mt-2">
-          Selected Items : {selectedItems}
-        </p>
-        <p className="text-sm text-dark mt-2">
-          Total Price : ${totalPrice.toFixed(2)}
-        </p>
-        <p className="text-sm text-dark mt-2">
-          Tax ({taxRate * 100}): ${tax.toFixed(3)}
-        </p>
-        <h3 className="text-xl font-semibold text-dark mt-4">
-          Grand Total ${grandTotal.toFixed(3)}
+    <section className="lg:w-80 w-full h-auto mt-10 rounded-lg bg-white shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl duration-500 relative">
+      <div className="p-6 space-y-4 text-center">
+        <h1 className="text-3xl font-bold text-gray-800 tracking-tight animate-fade-in-up">
+          Order Summary
+        </h1>
+
+        <div className="space-y-2 animate-fade-in-up delay-75">
+          <p className="text-sm text-gray-700 font-medium">
+            Selected Items: <span className="font-semibold text-gray-900">{selectedItems}</span>
+          </p>
+          <p className="text-sm text-gray-700 font-medium">
+            Total Price: <span className="font-semibold text-gray-900">${totalPrice.toFixed(2)}</span>
+          </p>
+          <p className="text-sm text-gray-700 font-medium">
+            Tax ({(taxRate * 100).toFixed(0)}%): <span className="font-semibold text-gray-900">${tax.toFixed(2)}</span>
+          </p>
+        </div>
+
+        <h3 className="text-2xl font-semibold text-gray-800 mt-4 animate-fade-in-up delay-100">
+          Grand Total: <span className="font-bold text-gray-900">${grandTotal.toFixed(2)}</span>
         </h3>
       </div>
-      <div className="px-4 pb-6">
-        {" "}
+
+      <div className="px-6 pb-6 space-y-4 animate-fade-in-up delay-150 relative">
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleClearCart();
           }}
-          className="bg-red-500 px-3 py-2 text-white  mt-2 rounded-md w-full text-xs flex justify-between items-center mb-4"
+          className="w-full bg-red-500 text-white px-4 py-2 rounded-lg text-sm flex justify-between items-center hover:bg-red-600 hover:scale-105 transition-transform duration-300 ease-in-out shadow-md"
         >
           <span>Clear Cart</span>
-          <Trash2 className="inline" width={15} height={15} />
+          <Trash2 width={20} height={20} />
         </button>
+
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          className="bg-green-600 px-3 py-2 text-white  mt-2 rounded-md w-full text-xs flex justify-between items-center"
+          onClick={handleProceedCheckout}
+          className="w-full bg-green-600 text-white px-4 py-2 rounded-lg text-sm flex justify-between items-center hover:bg-green-700 hover:scale-105 transition-transform duration-300 ease-in-out shadow-md"
         >
           <span>Proceed Checkout</span>
-          <CreditCard className="inline" width={15} height={15} />
+          <CreditCard width={20} height={20} />
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

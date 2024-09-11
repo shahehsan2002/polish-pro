@@ -3,7 +3,7 @@
 // import { useLocation } from 'react-router-dom';
 // import { FaSearch } from 'react-icons/fa';
 
-import Products from "@/components/Products"
+// import Products from "@/components/Products"
 
 // // Sample data for products
 // const sampleProducts = [
@@ -180,7 +180,7 @@ import Products from "@/components/Products"
 
 
 
-// import Products from "../components/Products"
+import Products from "../../components/Products"
 
 const Product = () => {
   return (
