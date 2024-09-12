@@ -65,27 +65,249 @@
 
 // export default Cart;
 
+
+
+// import OrderSummary from "@/components/OrderSummary";
+// import CartDetails from "@/components/CartDetails";
+// import { useAppSelector } from "../../redux/hooks"; // Ensure correct path to hooks
+
+// const Cart = () => {
+//   const products = useAppSelector((store) => store.cart.products);
+
+//   return (
+//     <div className="container mt-10 mx-auto">
+//       <div className="flex lg:flex-row flex-col-reverse justify-center lg:space-x-40">
+//         <div className="space-y-5 lg:mt-0 mt-5">
+//           {products.length ? (
+//             products.map((product) => (
+//               <CartDetails key={product.id} product={product} />
+//             ))
+//           ) : (
+//             <p className="text-2xl text-red-500">No products found</p>
+//           )}
+//         </div>
+//         <OrderSummary />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Cart;
+
+
+// import OrderSummary from "@/components/OrderSummary";
+// import CartDetails from "@/components/CartDetails";
+// import { useAppSelector } from "../../redux/hooks"; // Ensure correct path to hooks
+// import { useNavigate } from "react-router-dom"; // React Router for navigation
+
+// const Cart = () => {
+//   const products = useAppSelector((store) => store.cart.products);
+//   const navigate = useNavigate(); // React Router hook for navigation
+
+//   const handleContinueShopping = () => {
+//     navigate("/product"); // Navigate to the products page
+//   };
+
+//   return (
+//     <div className="container mt-10 mx-auto">
+//       {products.length ? (
+//         <div className="flex lg:flex-row flex-col-reverse justify-center lg:space-x-40">
+//           <div className="space-y-5 lg:mt-0 mt-5">
+//             {products.map((product) => (
+//               <CartDetails key={product.id} product={product} />
+//             ))}
+//           </div>
+//           <OrderSummary />
+//         </div>
+//       ) : (
+//         <div className="flex flex-col items-center justify-center h-full">
+//           <p className="text-2xl text-red-500 mb-6">Your cart is empty</p>
+//           <button
+//             onClick={handleContinueShopping}
+//             className="px-6 py-3 text-white bg-green-600 rounded-full hover:bg-green-700 transition-transform duration-300 ease-in-out transform hover:scale-105"
+//           >
+//             Continue Shopping
+//           </button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Cart;
+
+
+// import OrderSummary from "@/components/OrderSummary";
+// import CartDetails from "@/components/CartDetails";
+// import { useAppSelector } from "../../redux/hooks"; // Ensure correct path to hooks
+// import { useNavigate } from "react-router-dom"; // React Router for navigation
+// import { motion } from "framer-motion"; // Framer Motion for animations
+
+// const Cart = () => {
+//   const products = useAppSelector((store) => store.cart.products);
+//   const navigate = useNavigate();
+
+//   // Function to handle the continue shopping button
+//   const handleContinueShopping = () => {
+//     navigate("/products");
+//   };
+
+//   // Framer Motion Animation Variants
+//   const containerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { delay: 0.2, duration: 0.5, when: "beforeChildren", staggerChildren: 0.3 },
+//     },
+//   };
+
+//   const itemVariants = {
+//     hidden: { opacity: 0, y: 50 },
+//     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+//   };
+
+//   const buttonVariants = {
+//     hover: { scale: 1.1, transition: { yoyo: Infinity } },
+//   };
+
+//   return (
+//     <div className="container mt-10 mx-auto px-5 lg:px-0">
+//       {products.length ? (
+//         <motion.div
+//           className="flex lg:flex-row flex-col-reverse justify-center lg:space-x-16"
+//           variants={containerVariants}
+//           initial="hidden"
+//           animate="visible"
+//         >
+//           {/* Cart Items */}
+//           <div className="space-y-5 lg:mt-0 mt-5">
+//             {products.map((product) => (
+//               <motion.div key={product.id} variants={itemVariants}>
+//                 <CartDetails product={product} />
+//               </motion.div>
+//             ))}
+//           </div>
+
+//           {/* Order Summary */}
+//           <motion.div variants={itemVariants}>
+//             <OrderSummary />
+//           </motion.div>
+//         </motion.div>
+//       ) : (
+//         <motion.div
+//           className="flex flex-col items-center justify-center h-full"
+//           initial={{ opacity: 0, y: 50 }}
+//           animate={{ opacity: 1, y: 0, transition: { duration: 0.5 } }}
+//         >
+//           <p className="text-2xl text-red-500 mb-6">Your cart is empty</p>
+//           <motion.button
+//             onClick={handleContinueShopping}
+//             className="px-6 py-3 text-white bg-green-600 rounded-full shadow-lg hover:bg-green-700 transition-transform duration-300 ease-in-out"
+//             whileHover="hover"
+//             variants={buttonVariants}
+//           >
+//             Continue Shopping
+//           </motion.button>
+//         </motion.div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Cart;
+
+
 import OrderSummary from "@/components/OrderSummary";
 import CartDetails from "@/components/CartDetails";
 import { useAppSelector } from "../../redux/hooks"; // Ensure correct path to hooks
+import { useNavigate } from "react-router-dom"; // React Router for navigation
+import { motion } from "framer-motion"; // Framer Motion for animations
+import Lottie from 'react-lottie'; // For Lottie animations
+import emptyCartAnimation from '@/assets/cart.json'; // Your animated illustration
 
 const Cart = () => {
   const products = useAppSelector((store) => store.cart.products);
+  const navigate = useNavigate();
+
+  // Function to handle the continue shopping button
+  const handleContinueShopping = () => {
+    navigate("/product");
+  };
+
+  // Framer Motion Animation Variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { delay: 0.2, duration: 0.5, when: "beforeChildren", staggerChildren: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  };
+
+  const buttonVariants = {
+    hover: { scale: 1.1, transition: { yoyo: Infinity } },
+  };
+
+  const emptyCartOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: emptyCartAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   return (
-    <div className="container mt-10 mx-auto">
-      <div className="flex lg:flex-row flex-col-reverse justify-center lg:space-x-40">
-        <div className="space-y-5 lg:mt-0 mt-5">
-          {products.length ? (
-            products.map((product) => (
-              <CartDetails key={product.id} product={product} />
-            ))
-          ) : (
-            <p className="text-2xl text-red-500">No products found</p>
-          )}
-        </div>
-        <OrderSummary />
-      </div>
+    <div className="container mt-10 mx-auto px-5 lg:px-0">
+      {products.length ? (
+        <motion.div
+          className="flex lg:flex-row flex-col-reverse justify-center lg:space-x-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Cart Items */}
+          <div className="space-y-5 lg:mt-0 mt-5">
+            {products.map((product) => (
+              <motion.div 
+                key={product.id} 
+                className="p-5 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+              >
+                <CartDetails product={product} />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Order Summary */}
+          <motion.div variants={itemVariants}>
+            <OrderSummary />
+          </motion.div>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="flex flex-col items-center justify-center h-full text-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0, transition: { duration: 0.5 } }}
+        >
+          {/* Lottie Animation for Empty Cart */}
+          <Lottie options={emptyCartOptions} height={300} width={300} />
+          <p className="text-2xl text-red-500 mb-6">Oops, your cart is empty!</p>
+          <motion.button
+            onClick={handleContinueShopping}
+            className="px-6 py-3 text-white bg-green-600 rounded-full shadow-lg hover:bg-green-700 transition-transform duration-300 ease-in-out"
+            whileHover="hover"
+            variants={buttonVariants}
+          >
+            Continue Shopping
+          </motion.button>
+        </motion.div>
+      )}
     </div>
   );
 };

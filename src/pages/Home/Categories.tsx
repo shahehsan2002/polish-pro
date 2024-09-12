@@ -64,7 +64,6 @@
 
 // export default CategoriesSection;
 
-
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -78,8 +77,8 @@ const CategoriesSection = () => {
         {categories.map((category) => (
           <Link
             key={category}
-            to={`/products?category=${category}`}
-            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+            to={`/products?category=${encodeURIComponent(category)}`}
+            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
           >
             {category}
           </Link>
@@ -90,3 +89,4 @@ const CategoriesSection = () => {
 };
 
 export default CategoriesSection;
+
