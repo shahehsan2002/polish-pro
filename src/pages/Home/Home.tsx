@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/HeroSection/HeroSection";
-import TopMovies from "@/components/TopMovies/TopMovies";
 import BenefitsSection from "./Benefit";
 import ImageGallery from "./ImageGallery";
 import FAQSection from "./FAQ";
@@ -14,7 +13,7 @@ export default function Home() {
       <BenefitsSection/>
       <ImageGallery />
       <FAQSection/>
-      <TopMovies />
+      
       
     </div>
   );
