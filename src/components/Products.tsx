@@ -1,23 +1,263 @@
+
+// import React, { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom"; // For accessing URL params
+// import ProductCard from "../components/productCard"; // Assuming ProductCard component exists
+// import axios from "axios";
+// import { ChevronLeft, ChevronRight } from "lucide-react"; // For pagination arrows
+// import { motion } from "framer-motion"; // For animations
+
+// const Products = () => {
+//   const [products, setProducts] = useState([]);
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [selectedCategories, setSelectedCategories] = useState([]);
+//   const [priceRange, setPriceRange] = useState([0, 10000]); // Default max price as 10000
+//   const [sortOrder, setSortOrder] = useState("asc");
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const itemsPerPage = 9;
+
+//   const location = useLocation();
+//   const categoryFromUrl = new URLSearchParams(location.search).get("category"); // Get category from URL params
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5000/api/products");
+//         setProducts(response.data);
+//       } catch (error) {
+//         console.error("Error fetching products:", error);
+//       }
+//     };
+
+//     fetchProducts();
+//   }, []);
+
+//   // Set selected category if it comes from URL
+//   useEffect(() => {
+//     if (categoryFromUrl) {
+//       setSelectedCategories([categoryFromUrl]);
+//     } else {
+//       setSelectedCategories([]);
+//     }
+//   }, [categoryFromUrl]);
+
+//   // Filter products based on search term, categories, price range, and sort order
+//   const filteredProducts = products
+//     .filter(
+//       (product) =>
+//         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+//         (selectedCategories.length === 0 ||
+//           selectedCategories.includes(product.category)) &&
+//         product.price >= priceRange[0] &&
+//         product.price <= priceRange[1]
+//     )
+//     .sort((a, b) =>
+//       sortOrder === "asc" ? a.price - b.price : b.price - a.price
+//     );
+
+//   // Pagination logic
+//   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+//   const paginatedProducts = filteredProducts.slice(
+//     (currentPage - 1) * itemsPerPage,
+//     currentPage * itemsPerPage
+//   );
+
+//   const handleNextPage = () => {
+//     if (currentPage < totalPages) {
+//       setCurrentPage(currentPage + 1);
+//     }
+//   };
+
+//   const handlePreviousPage = () => {
+//     if (currentPage > 1) {
+//       setCurrentPage(currentPage - 1);
+//     }
+//   };
+
+//   const handleCategoryChange = (category) => {
+//     if (selectedCategories.includes(category)) {
+//       setSelectedCategories(
+//         selectedCategories.filter((cat) => cat !== category)
+//       );
+//     } else {
+//       setSelectedCategories([...selectedCategories, category]);
+//     }
+//   };
+
+//   const handlePriceChange = (e) => {
+//     setPriceRange([Number(e.target.value), priceRange[1]]);
+//   };
+
+//   const handleMaxPriceChange = (e) => {
+//     setPriceRange([priceRange[0], Number(e.target.value)]);
+//   };
+
+//   const handleClearFilters = () => {
+//     setSearchTerm("");
+//     setSelectedCategories([]);
+//     setPriceRange([0, 10000]);
+//     setSortOrder("asc");
+//   };
+
+//   return (
+//     <div className="container mx-auto p-6">
+//       {/* Search Input */}
+//       <div className="mb-6">
+//         <input
+//           type="text"
+//           placeholder="Search for products..."
+//           value={searchTerm}
+//           onChange={(e) => setSearchTerm(e.target.value)}
+//           className="border p-2 rounded w-full"
+//         />
+//       </div>
+
+//       {/* Filters */}
+//       <div className="flex flex-wrap gap-6 mb-8">
+//         {/* Category Filter */}
+//         <motion.div
+//           className="flex flex-col w-full lg:w-1/4"
+//           initial={{ x: -100, opacity: 0 }}
+//           animate={{ x: 0, opacity: 1 }}
+//           transition={{ duration: 0.6, ease: "easeOut" }}
+//         >
+//           <h3 className="font-bold mb-2">Categories</h3>
+//           {["Strength", "Yoga", "Recovery", "Cardio", "Accessories", "Core"].map(
+//             (category) => (
+//               <label
+//                 key={category}
+//                 className="inline-flex items-center cursor-pointer mb-2"
+//               >
+//                 <input
+//                   type="checkbox"
+//                   onChange={() => handleCategoryChange(category)}
+//                   checked={selectedCategories.includes(category)}
+//                   className="form-checkbox"
+//                 />
+//                 <span className="ml-2">{category}</span>
+//               </label>
+//             )
+//           )}
+//         </motion.div>
+
+//         {/* Price Filter */}
+//         <motion.div
+//           className="flex flex-col w-full lg:w-1/4"
+//           initial={{ x: 100, opacity: 0 }}
+//           animate={{ x: 0, opacity: 1 }}
+//           transition={{ duration: 0.6, ease: "easeOut" }}
+//         >
+//           <h3 className="font-bold mb-2">Price Range</h3>
+//           <label className="mb-2">
+//             Min Price:{" "}
+//             <input
+//               type="number"
+//               value={priceRange[0]}
+//               onChange={handlePriceChange}
+//               className="border p-2 rounded"
+//             />
+//           </label>
+//           <label>
+//             Max Price:{" "}
+//             <input
+//               type="number"
+//               value={priceRange[1]}
+//               onChange={handleMaxPriceChange}
+//               className="border p-2 rounded"
+//             />
+//           </label>
+//         </motion.div>
+
+//         {/* Sort Order */}
+//         <motion.div
+//           className="flex flex-col w-full lg:w-1/4"
+//           initial={{ x: 100, opacity: 0 }}
+//           animate={{ x: 0, opacity: 1 }}
+//           transition={{ duration: 0.6, ease: "easeOut" }}
+//         >
+//           <h3 className="font-bold mb-2">Sort by Price</h3>
+//           <select
+//             value={sortOrder}
+//             onChange={(e) => setSortOrder(e.target.value)}
+//             className="border p-2 rounded w-full"
+//           >
+//             <option value="asc">Low to High</option>
+//             <option value="desc">High to Low</option>
+//           </select>
+//         </motion.div>
+//       </div>
+
+//       {/* Clear Filters Button */}
+//       <button
+//         onClick={handleClearFilters}
+//         className="mb-6 px-4 py-2 bg-red-500 text-white rounded"
+//       >
+//         Clear Filters
+//       </button>
+
+//       {/* Product List */}
+//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-6">
+//         {paginatedProducts.length > 0 ? (
+//           paginatedProducts.map((product) => (
+//             <ProductCard key={product._id} product={product} />
+//           ))
+//         ) : (
+//           <p className="col-span-full text-center text-gray-500">
+//             No products found matching your criteria.
+//           </p>
+//         )}
+//       </div>
+
+//       {/* Pagination */}
+//       <div className="flex justify-between items-center">
+//         <button
+//           onClick={handlePreviousPage}
+//           disabled={currentPage === 1}
+//           className="px-4 py-2 bg-gray-300 text-black rounded"
+//         >
+//           <ChevronLeft />
+//         </button>
+//         <span>
+//           Page {currentPage} of {totalPages}
+//         </span>
+//         <button
+//           onClick={handleNextPage}
+//           disabled={currentPage === totalPages}
+//           className="px-4 py-2 bg-gray-300 text-black rounded"
+//         >
+//           <ChevronRight />
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Products;
+
+
 import React, { useState, useEffect } from "react";
-import ProductCard from "../components/productCard";
+import { useLocation } from "react-router-dom";
+import ProductCard from "../components/productCard"; // Ensure correct path
 import axios from "axios";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // For pagination arrows
-import { motion } from "framer-motion"; // For animations
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 10000]); // Default max price as 10000
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
+  const location = useLocation();
+  const categoryFromUrl = new URLSearchParams(location.search).get("category");
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/products");
-        setProducts(response.data);
+        const { data } = await axios.get("http://localhost:5000/api/products");
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -25,6 +265,14 @@ const Products = () => {
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setSelectedCategories([categoryFromUrl]);
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [categoryFromUrl]);
 
   const filteredProducts = products
     .filter(
@@ -39,7 +287,6 @@ const Products = () => {
       sortOrder === "asc" ? a.price - b.price : b.price - a.price
     );
 
-  // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
@@ -59,13 +306,11 @@ const Products = () => {
   };
 
   const handleCategoryChange = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(
-        selectedCategories.filter((cat) => cat !== category)
-      );
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((cat) => cat !== category)
+        : [...prev, category]
+    );
   };
 
   const handlePriceChange = (e) => {
@@ -85,61 +330,14 @@ const Products = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="mb-8 text-center"
-      >
-        <motion.h1
-          className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-green-500"
-          initial={{ y: -20 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          Explore Our Products
-        </motion.h1>
-      </motion.div>
-
-      <div className="flex flex-col lg:flex-row gap-4 mb-8">
-        <motion.input
+      <div className="mb-6">
+        <input
           type="text"
-          className="border p-2 rounded-lg w-full lg:w-1/3"
-          placeholder="Search products..."
+          placeholder="Search for products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          className="border p-2 rounded w-full"
         />
-
-        <div className="flex gap-4 items-center mb-4 lg:mb-0">
-          <label htmlFor="sortOrder" className="font-medium">
-            Sort by Price:
-          </label>
-          <motion.select
-            id="sortOrder"
-            className="border p-2 rounded-lg"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <option value="asc">Low to High</option>
-            <option value="desc">High to Low</option>
-          </motion.select>
-        </div>
-
-        <motion.button
-          onClick={handleClearFilters}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg transition-transform transform hover:scale-105"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          Clear Filters
-        </motion.button>
       </div>
 
       <div className="flex flex-wrap gap-6 mb-8">
@@ -150,27 +348,23 @@ const Products = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h3 className="font-bold mb-2">Categories</h3>
-          {[
-            "Strength",
-            "Yoga",
-            "Recovery",
-            "Cardio",
-            "Accessories",
-            "Core",
-          ].map((category) => (
-            <label
-              key={category}
-              className="inline-flex items-center cursor-pointer mb-2"
-            >
-              <input
-                type="checkbox"
-                onChange={() => handleCategoryChange(category)}
-                checked={selectedCategories.includes(category)}
-                className="form-checkbox"
-              />
-              <span className="ml-2">{category}</span>
-            </label>
-          ))}
+          {["Strength", "Yoga", "Recovery", "Cardio", "Accessories", "Core"].map(
+            (category) => (
+              <label
+                key={category}
+                className="inline-flex items-center cursor-pointer mb-2"
+                aria-label={`Filter by ${category}`}
+              >
+                <input
+                  type="checkbox"
+                  onChange={() => handleCategoryChange(category)}
+                  checked={selectedCategories.includes(category)}
+                  className="form-checkbox"
+                />
+                <span className="ml-2">{category}</span>
+              </label>
+            )
+          )}
         </motion.div>
 
         <motion.div
@@ -180,111 +374,80 @@ const Products = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h3 className="font-bold mb-2">Price Range</h3>
-          <label>
-            Min Price:
+          <label className="mb-2">
+            Min Price:{" "}
             <input
               type="number"
-              className="border p-2 rounded-lg ml-2"
               value={priceRange[0]}
               onChange={handlePriceChange}
+              className="border p-2 rounded"
+              min="0"
             />
           </label>
           <label>
-            Max Price:
+            Max Price:{" "}
             <input
               type="number"
-              className="border p-2 rounded-lg ml-2"
               value={priceRange[1]}
               onChange={handleMaxPriceChange}
+              className="border p-2 rounded"
+              min={priceRange[0]}
             />
           </label>
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col w-full lg:w-1/4"
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <h3 className="font-bold mb-2">Sort by Price</h3>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="border p-2 rounded w-full"
+          >
+            <option value="asc">Low to High</option>
+            <option value="desc">High to Low</option>
+          </select>
         </motion.div>
       </div>
 
-      {filteredProducts.length > 0 ? (
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {paginatedProducts.map((product) => (
-            <motion.div
-              key={product._id}
-              className="transition-transform transform hover:scale-105 hover:shadow-lg hover:rotate-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
-        </motion.div>
-      ) : (
-        <motion.div
-          className="flex justify-center items-center h-64"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <motion.div
-            className="text-center"
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <motion.h2
-              className="text-3xl font-bold mb-4 text-gray-700"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              No products found
-            </motion.h2>
-            <motion.p
-              className="text-lg text-gray-500"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-            >
-              Try adjusting your filters or search term.
-            </motion.p>
-            <motion.div
-              className="mt-6"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              <button
-                onClick={handleClearFilters}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105"
-              >
-                Clear Filters
-              </button>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
+      <button
+        onClick={handleClearFilters}
+        className="mb-6 px-4 py-2 bg-red-500 text-white rounded"
+      >
+        Clear Filters
+      </button>
 
-      <div className="flex justify-between mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mb-6">
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            No products found matching your criteria.
+          </p>
+        )}
+      </div>
+
+      <div className="flex justify-between items-center">
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className={`px-4 py-2 rounded-lg ${
-            currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"
-          }`}
+          className="px-4 py-2 bg-gray-300 text-black rounded"
         >
           <ChevronLeft />
         </button>
-        <span className="text-lg font-medium">{currentPage}</span>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 rounded-lg ${
-            currentPage === totalPages
-              ? "bg-gray-300"
-              : "bg-blue-500 text-white"
-          }`}
+          className="px-4 py-2 bg-gray-300 text-black rounded"
         >
           <ChevronRight />
         </button>
