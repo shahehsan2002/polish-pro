@@ -8,13 +8,22 @@ const Modal = ({ product, onClose, handleAddToCart }: any) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false); 
   const nodeRef = useRef(null);
 
+  // const handleAddToCartWithFeedback = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   handleAddToCart(product);
+  //   setShowSuccessMessage(true);
+  //   setIsAddedToCart(true); 
+  //   setTimeout(() => setShowSuccessMessage(false), 3000);
+  // };
+
   const handleAddToCartWithFeedback = (e: React.MouseEvent) => {
     e.preventDefault();
-    handleAddToCart(product);
+    handleAddToCart(product); // Ensure product object has correct id and properties
     setShowSuccessMessage(true);
     setIsAddedToCart(true); 
     setTimeout(() => setShowSuccessMessage(false), 3000);
   };
+  
 
   return (
     <CSSTransition

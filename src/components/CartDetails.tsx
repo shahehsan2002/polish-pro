@@ -5,10 +5,21 @@
 // import { useAppDispatch } from "../redux/hooks";
 // import { updateQuantity, removeFromCart } from "../redux/features/cartSlice";
 
-// const CartDetails = ({ product }: any) => {
+// interface CartDetailsProps {
+//   product: {
+//     id: string;
+//     image: string;
+//     name: string;
+//     price: number;
+//     quantity: number;
+//     stock: number;
+//   };
+// }
+
+// const CartDetails: React.FC<CartDetailsProps> = ({ product }) => {
 //   const dispatch = useAppDispatch();
 
-//   const handleQuantity = (type: string, id: string) => {
+//   const handleQuantity = (type: "increment" | "decrement", id: string) => {
 //     const newQuantity =
 //       type === "increment" ? product.quantity + 1 : product.quantity - 1;
 
@@ -17,8 +28,7 @@
 //       return;
 //     }
 
-//     const payload = { type, id };
-//     dispatch(updateQuantity(payload));
+//     dispatch(updateQuantity({ type, id }));
 //   };
 
 //   const handleRemove = (id: string) => {
@@ -26,7 +36,7 @@
 //       "Are you sure you want to remove this item from the cart?"
 //     );
 //     if (confirmed) {
-//       dispatch(removeFromCart({ id }));
+//       dispatch(removeFromCart(id));
 //     }
 //   };
 
@@ -39,7 +49,7 @@
 //       />
 //       <div className="flex-grow mx-4">
 //         <h3 className="text-xl font-semibold">{product.name}</h3>
-//         <p className="text-lg">${product.price}</p>
+//         <p className="text-lg">${product.price.toFixed(2)}</p>
 //         {product.quantity >= product.stock && (
 //           <p className="text-red-600">Stock Out</p>
 //         )}
@@ -73,7 +83,6 @@
 // };
 
 // export default CartDetails;
-
 
 import React from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";

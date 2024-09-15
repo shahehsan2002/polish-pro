@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addToCart } from "../redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { addToCart } from "../../redux/features/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>(); // Get the product ID from URL parameters
