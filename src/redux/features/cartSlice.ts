@@ -18,12 +18,15 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const isExist = state.products.find(
-        (product) => product._id === action.payload.id
+        (product) => product._id === action.payload._id
       );
       if (!isExist) {
         state.products.push({ ...action.payload, quantity: 1 });
       }
-      updateCartTotals(state);
+      state.selectedItems = selectSelectedItems(state);
+      state.totalPrice = selectTotalPrice(state);
+      state.tax = selectTax(state);
+      state.grandTotal = selectGrandTotal(state);
     },
     updateQuantity: (state, action: PayloadAction<{ id: string; type: "increment" | "decrement" }>) => {
             const { id, type } = action.payload;
