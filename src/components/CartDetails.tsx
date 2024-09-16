@@ -84,6 +84,8 @@
 
 // export default CartDetails;
 
+
+
 import React from "react";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useAppDispatch } from "../redux/hooks";
@@ -140,14 +142,14 @@ const CartDetails: React.FC<CartDetailsProps> = ({ product }) => {
       </div>
       <div className="flex items-center space-x-3">
         <button
-          onClick={() => handleQuantity("decrement", product.id)}
+          onClick={() => handleQuantity("decrement", product._id)}
           className="bg-green-600 text-white p-3 rounded-full"
         >
           <Minus size={20} />
         </button>
         <span>{product.quantity}</span>
         <button
-          onClick={() => handleQuantity("increment", product.id)}
+          onClick={() => handleQuantity("increment", product._id)}
           disabled={product.quantity >= product.stock}
           className={`bg-green-600 text-white p-3 rounded-full ${
             product.quantity >= product.stock ? "cursor-not-allowed" : ""
@@ -157,7 +159,7 @@ const CartDetails: React.FC<CartDetailsProps> = ({ product }) => {
         </button>
       </div>
       <button
-        onClick={() => handleRemove(product.id)}
+        onClick={() => handleRemove(product._id)}
         className="bg-red-600 text-white p-3 rounded-full"
       >
         <Trash2 size={20} />
