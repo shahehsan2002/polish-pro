@@ -124,7 +124,7 @@ export default function CheckoutPage() {
   
         {/* Order Summary Section */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+          <h3 className="text-xl font-semibold mb-5">Order Summary</h3>
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="bg-gray-200">
