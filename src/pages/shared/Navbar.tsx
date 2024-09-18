@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className="hidden md:block relative">
           <Link to="/cart">
             <ShoppingCart className="h-6 w-6 text-gray-900" />
-            <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-bold rounded-full px-2 py-1">
+            <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs font-bold rounded-full px-2 mr-2 py-1">
               {products.length}
             </span>
           </Link>
