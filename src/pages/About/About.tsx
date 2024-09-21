@@ -49,7 +49,7 @@ export default function About() {
 
       {/* Heading Section */}
       <motion.div initial="hidden" animate="show" variants={fadeInUp} className="text-center mb-12">
-        <h1 className="text-5xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-600">
+        <h1 className="text-5xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-600">
           About <span className="text-yellow-500">StrengthZone</span>
         </h1>
         <p className="text-xl mt-4 text-gray-700 max-w-3xl mx-auto">
