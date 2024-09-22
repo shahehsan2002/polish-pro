@@ -1,12 +1,10 @@
 
-
-import React from "react";
 import { motion } from "framer-motion";
 import profilePic1 from "@/assets/person-1.jpg";
 import profilePic2 from "@/assets/person-2.jpg";
 import profilePic3 from "@/assets/person-3.jpg";
 import profilePic4 from "@/assets/person-4.jpeg";
-import { FaBullseye, FaHandshake, FaRocket, FaAward } from "react-icons/fa";
+import { FaHandshake, FaRocket, FaAward } from "react-icons/fa";
 
 // Animation Variants
 const fadeInUp = {
