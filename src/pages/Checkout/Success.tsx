@@ -23,7 +23,7 @@ const SuccessPage = () => {
             clipRule="evenodd"
           />
         </svg>
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">Order Placed Successfully!</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-5">Order Placed Successfully!</h1>
         <p className="text-lg text-gray-600 mb-6">
           Thank you for your order. You will receive a confirmation email shortly.
         </p>
