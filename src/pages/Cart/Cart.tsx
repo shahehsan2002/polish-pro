@@ -231,7 +231,7 @@ const Cart = () => {
 
   // Function to handle the continue shopping button
   const handleContinueShopping = () => {
-    navigate("/product");
+    navigate("/service");
   };
 
   // Framer Motion Animation Variants
