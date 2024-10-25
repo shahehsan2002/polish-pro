@@ -1,43 +1,34 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import Image1 from '../../assets/Mosaic/fitness-6214388_640.jpg'; // Import the image
-import Image2 from '../../assets/Mosaic/man-1868632_640.jpg'; // Import the image
-import Image3 from '../../assets/Mosaic/man-2604149_640.jpg'; // Import the image
-import Image4 from '../../assets/Mosaic/sport-2792995_640.jpg'; // Import the image
-import Image5 from '../../assets/Mosaic/weightlifting-5730110_640.jpg'; // Import the image
-import Image6 from '../../assets/Mosaic/woman-1284656_640.jpg'; // Import the image
-import Image7 from '../../assets/Mosaic/woman-6888634_640.jpg'; // Import the image
-import Image8 from '../../assets/Mosaic/workout-6783020_640.jpg'; // Import the image
+import { motion } from "framer-motion";
+import Image1 from "../../assets/Mosaic/1.jpg";
+import Image2 from "../../assets/Mosaic/2.jpg";
+import Image3 from "../../assets/Mosaic/3.jpg";
+import Image4 from "../../assets/Mosaic/4.jpg";
+import Image5 from "../../assets/Mosaic/5.jpg";
+import Image6 from "../../assets/Mosaic/6.jpg";
+import Image7 from "../../assets/Mosaic/7.jpg";
+import Image8 from "../../assets/Mosaic/8.jpg";
+import Image9 from "../../assets/Mosaic/9.jpg";
+import Image10 from "../../assets/Mosaic/10.jpg";
+import Image11 from "../../assets/Mosaic/11.jpg";
 
-const images = [
-  Image1, // Use the imported image
-  Image2, // Use the imported image
-  Image3, // Use the imported image
-  Image4, // Use the imported image
-  Image5, // Use the imported image
-  Image6, // Use the imported image
-  Image7, // Use the imported image
-  Image8, // Use the imported image
-  // Add more local images or URLs
-];
+const images = [Image1, Image2, Image3, Image4, Image5, Image6, Image7, Image8, Image9, Image10, Image11];
 
 const MosaicGallerySection = () => {
   return (
-    <section className="py-16 px-4 bg-gray-100 overflow-hidden">
-      {/* Container */}
-      <div className="relative mx-auto container">
+    <section className="py-20 px-6 bg-gradient-to-r from-gray-50 to-gray-200 overflow-hidden">
+      <div className="relative container mx-auto max-w-6xl">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
             Our Gallery
           </h2>
           <p className="text-lg md:text-xl text-gray-600">
-            Explore our collection of stunning images.
+            Dive into our world with this curated selection of images.
           </p>
         </motion.div>
 
@@ -46,18 +37,24 @@ const MosaicGallerySection = () => {
           {images.map((img, index) => (
             <motion.div
               key={index}
-              className="relative group overflow-hidden"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              className="relative overflow-hidden rounded-lg shadow-lg group"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 * index }}
             >
               <img
                 src={img}
                 alt={`Gallery item ${index}`}
                 className="w-full h-full object-cover transition-transform duration-500 ease-in-out transform group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-70 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-xl font-semibold">View</span>
+              <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-80 transition-opacity duration-500 flex items-center justify-center">
+                <span className="text-white text-2xl font-semibold tracking-wider"></span>
               </div>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-blue-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-lg"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 0.3 }}
+              />
             </motion.div>
           ))}
         </div>
