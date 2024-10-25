@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Facebook, Github, Instagram, Twitter } from "lucide-react";
 
 export default function Footer() {
@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 text-center md:text-left">
-            <p>&copy; 2024 StrengthZone. All rights reserved.</p>
+            <p>&copy; 2024 PolishPro. All rights reserved.</p>
           </div>
           <div className="flex space-x-6">
             <a 
