@@ -47,12 +47,11 @@ export function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black bg-opacity-60 flex flex-col items-center justify-center text-white px-4 space-y-6 z-10">
                     {/* Animated Title */}
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-fade-in-up drop-shadow-lg">
-                      Welcome to StrengthZone
+                      Welcome to PolishPro
                     </h1>
                     {/* Animated Subtitle */}
                     <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-light animate-fade-in-up max-w-3xl text-center">
-                      Your ultimate destination for premium fitness equipment
-                      and accessories.
+                    Clean Car, Happy You—Schedule Your Wash in a Click!
                     </p>
                     {/* Buttons */}
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 animate-fade-in">
@@ -60,7 +59,7 @@ export function HeroSection() {
                         href="/products"
                         className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-full shadow-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-500 transform hover:scale-105"
                       >
-                        Shop Now
+                        Book Now
                       </a>
                       <a
                         href="/about"
