@@ -30,7 +30,7 @@ const benefitsData = [
 
 const BenefitsSection = () => {
   return (
-    <section className="relative py-16 px-6 bg-gradient-to-r from-gray-100 to-gray-200 overflow-hidden">
+    <section className="relative py-16 px-6 bg-gradient-to-r from-blue-50 via-green-50 to-gray-200 overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0">
         <div className="h-full w-full bg-[radial-gradient(circle,_rgba(255,255,255,0.5)_50%,_rgba(200,200,200,0.1)_100%)] opacity-20"></div>

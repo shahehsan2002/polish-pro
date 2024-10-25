@@ -1,92 +1,67 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 
-const faqs = [
+const benefits = [
   {
-    question: 'What is your return policy?',
-    answer: 'Our return policy is 30 days. You can return products within 30 days of receipt for a full refund or exchange.',
+    title: 'Convenient Online Booking',
+    description: 'Schedule a car wash anytime, from anywhere, with our simple online booking system.',
   },
   {
-    question: 'How do I track my order?',
-    answer: 'Once your order has shipped, you will receive an email with tracking information. You can use this information to track your order on the carrier’s website.',
+    title: 'Professional Service',
+    description: 'Our team is trained to provide high-quality services ensuring your car is spotless.',
   },
   {
-    question: 'Do you offer international shipping?',
-    answer: 'Yes, we offer international shipping to many countries. Shipping costs and delivery times vary by destination.',
+    title: 'Eco-Friendly Products',
+    description: 'We use eco-friendly cleaning products that are safe for both your car and the environment.',
   },
   {
-    question: 'How can I contact customer service?',
-    answer: 'You can contact our customer service team via email at support@example.com or through our contact form on the website.',
+    title: 'Flexible Payment Options',
+    description: 'Pay securely with various payment methods, including credit card and digital wallets.',
   },
 ];
 
-const FAQSection = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const handleToggle = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
+const BenefitsSection = () => {
   return (
-    <section className="relative py-16 px-4">
-      <div className="relative mx-auto container">
+    <section className="py-20 px-6 bg-gradient-to-r from-blue-50 via-green-50 to-gray-200 overflow-hidden">
+      <div className="container mx-auto max-w-4xl bg-white bg-opacity-60 rounded-xl shadow-2xl p-8">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center mb-12"
+          className="text-center mb-10"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600">
-            Find answers to some of our most common questions.
+          <h2 className="text-4xl font-extrabold text-gray-800 mb-3">Why Choose Us?</h2>
+          <p className="text-lg text-gray-600">
+            Discover the benefits of booking your car wash with us.
           </p>
         </motion.div>
 
-        {/* FAQ List */}
-        <div className="space-y-6">
-          {faqs.map((faq, index) => (
+        {/* Benefits List */}
+        <div className="space-y-8">
+          {benefits.map((benefit, index) => (
             <motion.div
               key={index}
-              className={`relative bg-white shadow-lg rounded-lg p-6 transition-transform duration-300 ease-in-out cursor-pointer overflow-hidden border border-gray-200 hover:border-blue-500 hover:shadow-xl ${
-                activeIndex === index ? 'border-blue-500 shadow-xl' : ''
-              }`}
-              onClick={() => handleToggle(index)}
+              className="relative bg-white rounded-lg shadow-lg p-6 transition-transform duration-300 ease-in-out hover:shadow-xl hover:border-green-400 border border-transparent"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 * index, ease: 'easeOut' }}
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">{faq.question}</h3>
-                <motion.div
-                  className={`transition-transform duration-300 ${
-                    activeIndex === index ? 'rotate-180' : ''
-                  }`}
-                >
-                  {activeIndex === index ? (
-                    <FaChevronUp className="w-6 h-6 text-gray-500" />
-                  ) : (
-                    <FaChevronDown className="w-6 h-6 text-gray-500" />
-                  )}
-                </motion.div>
+              <div className="flex items-start">
+                <FaCheckCircle className="w-8 h-8 text-green-500 mr-4" />
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-700 mb-2">{benefit.title}</h3>
+                  <p className="text-gray-600">{benefit.description}</p>
+                </div>
               </div>
-              <motion.div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  activeIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                }`}
-              >
-                <p className="text-gray-600">{faq.answer}</p>
-              </motion.div>
 
-              {/* Interactive Background Effect */}
+              {/* Subtle Hover Effect */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent to-gray-200 opacity-20"
+                className="absolute inset-0 bg-gradient-to-r from-green-300 to-blue-400 opacity-10 rounded-lg pointer-events-none"
                 initial={{ opacity: 0 }}
-                whileHover={{ opacity: 0.5 }}
-                transition={{ duration: 0.3 }}
+                whileHover={{ opacity: 0.2 }}
+                transition={{ duration: 0.4 }}
               />
             </motion.div>
           ))}
@@ -96,4 +71,4 @@ const FAQSection = () => {
   );
 };
 
-export default FAQSection;
+export default BenefitsSection;
