@@ -5,11 +5,15 @@ import Cart from "@/pages/Cart/Cart";
 import CheckoutPage from "@/pages/Checkout/Checkout";
 import SuccessPage from "@/pages/Checkout/Success";
 import ContactPage from "@/pages/Contact/Contact";
+import BookingPage from "@/pages/Dashboard/Booking/BookingPage";
 import SlotManagementPage from "@/pages/Dashboard/SlotManagement/SlotManagement";
+import UserManagement from "@/pages/Dashboard/UserManagement/UserManagement";
 import Home from "@/pages/Home/Home";
 import ProductsPage from "@/pages/Product/Product";
 import ProductDetail from "@/pages/Product/ProductDetails";
 import ProductManagement from "@/pages/ProductManagement/ProductManagement";
+import ServiceDetailsPage from "@/pages/Service/ServiceDetailsPage";
+import ServicesPage from "@/pages/Service/ServicePage";
 import NotFound from "@/pages/shared/NotFound";
 import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
@@ -34,11 +38,23 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: "/service",
+        path: "/products",
         element: <ProductsPage />,
       },
       {
-        path: "/service:id",
+        path: "/services",
+        element: <ServicesPage />,
+      },
+      {
+        path: "/services/:id",
+        element: <ServiceDetailsPage />,
+      },
+      {
+        path: "/booking/:id/:time",
+        element: <BookingPage />,
+      },
+      {
+        path: "/products/:id",
         element: <ProductDetail />,
       },
       {
@@ -65,6 +81,7 @@ const router = createBrowserRouter([
     children: [
       { path: "products", element: <ProductManagement /> },
       { path: "slot", element: <SlotManagementPage /> },
+      { path: "users", element: <UserManagement /> },
     ],
   },
 ]);
