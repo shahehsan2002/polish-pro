@@ -1,3 +1,4 @@
+import Dashboard from "@/components/Layouts/Dashboard";
 import MainLayout from "@/components/Layouts/MainLayouts";
 import About from "@/pages/About/About";
 import Cart from "@/pages/Cart/Cart";
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />,
       },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      { path: "products", element: <ProductManagement /> },
+      // Add other nested routes for Dashboard here as needed
     ],
   },
 ]);

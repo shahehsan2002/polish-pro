@@ -1,5 +1,3 @@
-
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -28,14 +26,12 @@ export default function Navbar() {
           <p className="text-3xl font-extrabold bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
             PolishPro
           </p>
-         
         </Link>
 
         {/* Cart Icon for small screens */}
         <div className="md:hidden">
           <Link to="/cart" className="relative hover:text-yellow-400">
             <ShoppingCart className="h-6 w-6 text-gray-900" />
-            
           </Link>
         </div>
 
@@ -53,19 +49,23 @@ export default function Navbar() {
         </button>
 
         {/* Navigation Menu */}
-        <NavigationMenu className={`md:flex md:flex-grow ${isMenuOpen ? "block" : "hidden"}`}>
+        <NavigationMenu
+          className={`md:flex md:flex-grow ${isMenuOpen ? "block" : "hidden"}`}
+        >
           <NavigationMenuList className="flex flex-col md:flex-row md:space-x-6 lg:space-x-8">
-            {["Service", "About", "Contact", "Product-Management"].map((item) => (
-              <NavigationMenuItem key={item}>
-                <Link to={`/${item.toLowerCase()}`}>
-                  <NavigationMenuLink
-                    className={`${navigationMenuTriggerStyle()} transition-all duration-300 ease-in-out hover:text-gray-900`}
-                  >
-                    {item}
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            ))}
+            {["Service", "About", "Contact", "Product-Management", "dashboard"].map(
+              (item) => (
+                <NavigationMenuItem key={item}>
+                  <Link to={`/${item.toLowerCase()}`}>
+                    <NavigationMenuLink
+                      className={`${navigationMenuTriggerStyle()} transition-all duration-300 ease-in-out hover:text-gray-900`}
+                    >
+                      {item}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              )
+            )}
           </NavigationMenuList>
         </NavigationMenu>
 
@@ -84,17 +84,19 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border border-gray-200 rounded-lg shadow-lg mt-2">
           <ul className="flex flex-col p-4">
-            {["Service", "About", "Contact", "Product-Management"].map((item) => (
-              <li key={item} className="py-2">
-                <Link
-                  to={`/${item.toLowerCase()}`}
-                  className="block transition duration-300 hover:text-yellow-400"
-                  onClick={() => setIsMenuOpen(false)} // Close the menu on item click
-                >
-                  {item}
-                </Link>
-              </li>
-            ))}
+            {["Service", "About", "Contact", "Product-Management, dashboard"].map(
+              (item) => (
+                <li key={item} className="py-2">
+                  <Link
+                    to={`/${item.toLowerCase()}`}
+                    className="block transition duration-300 hover:text-yellow-400"
+                    onClick={() => setIsMenuOpen(false)} // Close the menu on item click
+                  >
+                    {item}
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </div>
       )}
