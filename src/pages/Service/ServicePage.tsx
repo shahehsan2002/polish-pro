@@ -72,9 +72,10 @@
 
 // ServicesPage.js
 import React, { useState } from 'react';
-import ServiceList from './ServiceList';
+// import ServiceList from './ServiceList';
 import SearchBar from './SearchBar';
 import FilterOptions from './FilterOptions';
+import ServiceList from './ServiceList';
 
 // Sample data for services
 const servicesData = [
