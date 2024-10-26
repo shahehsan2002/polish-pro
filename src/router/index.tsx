@@ -5,7 +5,7 @@ import Cart from "@/pages/Cart/Cart";
 import CheckoutPage from "@/pages/Checkout/Checkout";
 import SuccessPage from "@/pages/Checkout/Success";
 import ContactPage from "@/pages/Contact/Contact";
-import BookingPage from "@/pages/Dashboard/Booking/BookingPage";
+import BookingPage from "@/pages/Booking/BookingPage";
 import SlotManagementPage from "@/pages/Dashboard/SlotManagement/SlotManagement";
 import UserManagement from "@/pages/Dashboard/UserManagement/UserManagement";
 import Home from "@/pages/Home/Home";
