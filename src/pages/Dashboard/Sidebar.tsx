@@ -1,7 +1,7 @@
 // Sidebar.js
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaTachometerAlt, FaUserAlt, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
+import { FaTachometerAlt, FaUserAlt, FaCog,  FaBars, FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -30,7 +30,7 @@ const Sidebar = () => {
       </button>
 
       <div className="space-y-4">
-        <SidebarItem isOpen={isOpen} icon={<FaTachometerAlt />} label="Home" to="/" />
+        <SidebarItem isOpen={isOpen} icon={<FaHome />} label="Home" to="/" />
         <SidebarItem isOpen={isOpen} icon={<FaTachometerAlt />} label="Service" to="/dashboard/products" />
         <SidebarItem isOpen={isOpen} icon={<FaUserAlt />} label="Users" to="/dashboard/users" />
         <SidebarItem isOpen={isOpen} icon={<FaCog />} label="Slot" to="/dashboard/slot" />

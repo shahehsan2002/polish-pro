@@ -93,12 +93,12 @@ import { Outlet } from 'react-router-dom';
 
 const Dashboard = () => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <Sidebar />
       
       {/* Main Content */}
-      <div className="flex-1 ml-[160px] transition-all duration-300">
+      <div className="flex-1 ml-[250px] transition-all duration-300">
         <div className="p-8">
           <Outlet />
         </div>

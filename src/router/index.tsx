@@ -5,6 +5,7 @@ import Cart from "@/pages/Cart/Cart";
 import CheckoutPage from "@/pages/Checkout/Checkout";
 import SuccessPage from "@/pages/Checkout/Success";
 import ContactPage from "@/pages/Contact/Contact";
+import SlotManagementPage from "@/pages/Dashboard/SlotManagement/SlotManagement";
 import Home from "@/pages/Home/Home";
 import ProductsPage from "@/pages/Product/Product";
 import ProductDetail from "@/pages/Product/ProductDetails";
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       { path: "products", element: <ProductManagement /> },
-      // Add other nested routes for Dashboard here as needed
+      { path: "slot", element: <SlotManagementPage /> },
     ],
   },
 ]);

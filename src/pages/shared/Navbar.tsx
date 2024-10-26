@@ -53,7 +53,7 @@ export default function Navbar() {
           className={`md:flex md:flex-grow ${isMenuOpen ? "block" : "hidden"}`}
         >
           <NavigationMenuList className="flex flex-col md:flex-row md:space-x-6 lg:space-x-8">
-            {["Service", "About", "Contact", "Product-Management", "dashboard"].map(
+            {["Service", "About", "Contact", "dashboard"].map(
               (item) => (
                 <NavigationMenuItem key={item}>
                   <Link to={`/${item.toLowerCase()}`}>
@@ -84,7 +84,7 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border border-gray-200 rounded-lg shadow-lg mt-2">
           <ul className="flex flex-col p-4">
-            {["Service", "About", "Contact", "Product-Management, dashboard"].map(
+            {["Service", "About", "Contact", "dashboard"].map(
               (item) => (
                 <li key={item} className="py-2">
                   <Link
